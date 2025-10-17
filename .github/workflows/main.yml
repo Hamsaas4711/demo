@@ -1,0 +1,14 @@
+# .github/workflows/simple.yml
+name: Simple Pipeline
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Build project
+        run: echo "Building the project..."
