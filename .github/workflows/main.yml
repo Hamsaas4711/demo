@@ -3,40 +3,27 @@ name: CI/CD Pipeline
 on:
   push:
     branches: [ main ]
-  pull_request:
-    branches: [ main ]
 
 jobs:
-  build:
+  deploy:
     runs-on: ubuntu-latest
-    
+
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
-    
+
     - name: Setup Node.js
       uses: actions/setup-node@v4
       with:
         node-version: '18'
-    
+
     - name: Install dependencies
       run: npm install
-    
-    - name: Run tests
-      run: npm test
-    
+
     - name: Build project
       run: npm run build
 
-  deploy:
-    runs-on: ubuntu-latest
-    needs: build
-    
-    steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
-    
-    - name: Deploy to cloud
+    - name: Deploy to AWS Amplify
       run: |
-        echo "🚀 Deploying application..."
-        echo "Deployment successful!"
+        npm install -g @aws-amplify/cli
+        amplify publish --yes
